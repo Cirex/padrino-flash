@@ -21,8 +21,8 @@ end
 ### Dependencies
 
 * [Padrino-Core](https://github.com/padrino/padrino-framework) and [Padrino-Helpers](https://github.com/padrino/padrino-framework)
-* [Ruby](http://www.ruby-lang.org/en) >= 1.9.2
+* [Ruby](http://www.ruby-lang.org/en) >= 1.8.7
 
 ### Copyright
 
-Copyright © 2012 Benjamin Bloch (Cirex). See LICENSE for details.
+Copyright &copy; 2012 Benjamin Bloch (Cirex). See LICENSE for details.
