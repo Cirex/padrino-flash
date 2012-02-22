@@ -12,18 +12,18 @@ module TestHelpers
       set :logging, false
 
       get :flash do
-        flash.inspect
+        flash.now.inspect
       end
 
       post :flash do
         params.each { |type, message| flash[type.to_sym] = message }
-        flash.inspect
+        flash.now.inspect
       end
     end
   end
 
   def session
-    @session ||= { _flash: { notice:  'Flash Notice', success: 'Flash Success' }}
+    @session ||= { :_flash => { :notice =>  'Flash Notice', :success => 'Flash Success' }}
   end
 end
 

@@ -1,4 +1,4 @@
-require_relative 'spec'
+require File.expand_path('../spec', __FILE__)
 
 describe Padrino::Flash::Storage do
   let :flash do

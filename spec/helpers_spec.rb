@@ -1,4 +1,4 @@
-require_relative 'spec'
+require File.expand_path('../spec', __FILE__)
 
 describe Padrino::Flash::Helpers do
   include Padrino::Helpers::OutputHelpers
@@ -7,7 +7,7 @@ describe Padrino::Flash::Helpers do
 
   context '#redirect' do
     it 'should let you to use a string to set a flash message' do
-      app.get(:redirect) { redirect('/flash', notice: 'Redirected') }
+      app.get(:redirect) { redirect('/flash', :notice => 'Redirected') }
       get '/redirect'
       follow_redirect!
       last_response.body.should == '{:notice=>"Redirected"}'
@@ -21,7 +21,7 @@ describe Padrino::Flash::Helpers do
     end
 
     it 'should allow you to set multiple flash messages' do
-      app.get(:redirect) { redirect('/flash', notice: 'Redirected', success: 'Redirected') }
+      app.get(:redirect) { redirect('/flash', :notice => 'Redirected', :success => 'Redirected') }
       get '/redirect'
       follow_redirect!
       last_response.body.should == '{:notice=>"Redirected", :success=>"Redirected"}'
@@ -34,7 +34,7 @@ describe Padrino::Flash::Helpers do
     end
 
     it 'should allow you to set the status code with flash messages' do
-      app.get(:redirect) { redirect('/flash', 301, notice: 'Redirected') }
+      app.get(:redirect) { redirect('/flash', 301, :notice => 'Redirected') }
       get '/redirect'
       last_response.status.should == 301
       follow_redirect!
@@ -45,7 +45,7 @@ describe Padrino::Flash::Helpers do
   context '#flash_message' do
     it 'should return the contents of the specified flash' do
       flash = flash_message(:success)
-      flash.should have_tag(:div, count: 1, with: { id: 'flash-success', class: 'success', title: 'Success' })
+      flash.should have_tag(:div, :count => 1, :with => { :id => 'flash-success', :class => 'success', :title => 'Success' })
     end
 
     it 'should return nil when the specified flash is not set' do
@@ -57,16 +57,16 @@ describe Padrino::Flash::Helpers do
   context '#flash_messages' do
     it 'should return the contents of all flashes' do
       flashes = flash_messages
-      flashes.should have_tag(:div, count: 1, with: { id: 'flash' }) do
-        with_tag(:span, text: 'Flash Success', with: { class: 'success', title: 'Success' })
-        with_tag(:span, text: 'Flash Notice', with: { class: 'notice', title: 'Notice' })
+      flashes.should have_tag(:div, :count => 1, :with => { :id => 'flash' }) do
+        with_tag(:span, :text => 'Flash Success', :with => { :class => 'success', :title => 'Success' })
+        with_tag(:span, :text => 'Flash Notice', :with => { :class => 'notice', :title => 'Notice' })
       end
     end
 
     it 'should return an empty div when no flash messages set' do
       session.clear
       flashes = flash_messages
-      flashes.should have_tag(:div, count: 1, with: { id: 'flash' })
+      flashes.should have_tag(:div, :count => 1, :with => { :id => 'flash' })
     end
   end
 end

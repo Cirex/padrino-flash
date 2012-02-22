@@ -55,11 +55,11 @@ module Padrino
       # @api public
       def flash_messages
         flashes = flash.collect do |type, message|
-          content_tag(:span, message, title: type.to_s.titleize, class: type)
+          content_tag(:span, message, :title => type.to_s.titleize, :class => type)
         end.join("\n")
 
         # Create the tag even if we don't need it so it can be dynamically altered
-        content_tag(:div, flashes, id: 'flash')
+        content_tag(:div, flashes, :id => 'flash')
       end
 
       ###
@@ -83,7 +83,7 @@ module Padrino
       # @api public
       def flash_message(type)
         if flash[type]
-          content_tag(:div, flash[type], id: "flash-#{type}", title: type.to_s.titleize, class: type)
+          content_tag(:div, flash[type], :id => "flash-#{type}", :title => type.to_s.titleize, :class => type)
         end
       end
 
