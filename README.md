@@ -4,7 +4,7 @@ Padrino Flash is a plugin for the [Padrino](https://github.com/padrino/padrino-f
 
 ### Setup & Installation
 
-Include it in your project's `Gemfile` with Bundler:
+Include it in your project's `Gemfile`:
 
 ``` ruby
 gem 'padrino-flash'

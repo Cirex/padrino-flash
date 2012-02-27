@@ -22,6 +22,7 @@ module Padrino
       # @since 0.1.0
       # @api public
       def []=(type, message)
+        message = I18n.translate(message) if message.is_a?(Symbol)
         @next[type] = message
       end
 

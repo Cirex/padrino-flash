@@ -28,6 +28,12 @@ describe Padrino::Flash::Storage do
   it 'should set future flash messages' do
     flash[:future] = 'Test'
     flash[:future].should be_nil
+    flash.next[:future].should == 'Test'
+  end
+
+  it 'should localize flash messages when a :symbol is used' do
+    flash[:localized] = :redirected
+    flash.next[:localized].should == 'Redirected'
   end
 
   it 'should allow you to set the present flash' do
@@ -88,7 +94,6 @@ describe Padrino::Flash::Storage do
 
   it 'can return the existing flash keys' do
     flash.keys.should == [:notice, :success]
-    flash.keys.should_not include(:one, :two)
   end
 
   it 'can tell you if a key is set' do

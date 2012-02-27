@@ -31,7 +31,6 @@ module Padrino
         flashes = args.extract_options!
 
         flashes.each do |type, message|
-          message = I18n.translate(message) if message.is_a?(Symbol)
           flash[type] = message
         end
 
