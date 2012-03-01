@@ -56,7 +56,6 @@ module Padrino
       # @api public
       def delete(type)
         @now.delete(type)
-        self
       end
 
       ###

@@ -10,11 +10,16 @@ describe Padrino::Flash::Storage do
     flash[:two] = 'Two'
   end
 
-  it 'can delete a single flash' do
-    flash[:notice].should == 'Flash Notice'
-    flash.delete :notice
-    flash.key?(:notice).should be_false
-    flash[:notice].should be_nil
+  context :delete do
+    it 'should remove the message from the storage hash' do
+      flash[:notice].should == 'Flash Notice'
+      flash.delete :notice
+      flash.key?(:notice).should be_false
+    end
+
+    it 'should return the value of the deleted flash' do
+      flash.delete(:notice).should == 'Flash Notice'
+    end
   end
 
   it 'can delete the entire flash' do
@@ -25,15 +30,17 @@ describe Padrino::Flash::Storage do
     flash[:success].should be_nil
   end
 
-  it 'should set future flash messages' do
-    flash[:future] = 'Test'
-    flash[:future].should be_nil
-    flash.next[:future].should == 'Test'
-  end
+  context :[]= do
+    it 'should localize flash messages when a :symbol is used' do
+      flash[:localized] = :redirected
+      flash.next[:localized].should == 'Redirected'
+    end
 
-  it 'should localize flash messages when a :symbol is used' do
-    flash[:localized] = :redirected
-    flash.next[:localized].should == 'Redirected'
+    it 'should set future flash messages' do
+      flash[:future] = 'Test'
+      flash[:future].should be_nil
+      flash.next[:future].should == 'Test'
+    end
   end
 
   it 'should allow you to set the present flash' do
@@ -68,13 +75,23 @@ describe Padrino::Flash::Storage do
     flash[:success].should_not == 'Flash Success'
   end
 
-  it 'can iterate through flash messages' do
-    flashes = []
-    flash.each do |type, message|
-      flashes << [type, message]
+  context :each do
+    it 'can iterate through flash messages' do
+      flashes = []
+      flash.each do |type, message|
+        flashes << [type, message]
+      end
+      flashes[0].should == [:notice, 'Flash Notice']
+      flashes[1].should == [:success, 'Flash Success']
     end
-    flashes[0].should == [:notice, 'Flash Notice']
-    flashes[1].should == [:success, 'Flash Success']
+
+    it 'should allow enumeration' do
+      flashes = flash.collect do |type, message|
+        [type, message]
+      end
+      flashes[0].should == [:notice, 'Flash Notice']
+      flashes[1].should == [:success, 'Flash Success']
+    end
   end
 
   it 'can sweep up the old to make room for the new' do
@@ -92,13 +109,30 @@ describe Padrino::Flash::Storage do
     flash[:error].should == 'Replaced'
   end
 
-  it 'can return the existing flash keys' do
-    flash.keys.should == [:notice, :success]
+  context :keys do
+    it 'can return the existing flash keys' do
+      flash.keys.should == [:notice, :success]
+    end
+
+    it 'should return an empty array when no flashes are set' do
+      flash.clear
+      flash.keys.should == []
+    end
   end
 
-  it 'can tell you if a key is set' do
-    flash.key?(:notice).should be_true
-    flash.key?(:one).should be_false
+  context :key? do
+    it 'should return true when a flash is set' do
+      flash.key?(:notice).should be_true
+    end
+
+    it 'should return false when a flash is not set' do
+      flash.key?(:non_existent).should be_false
+    end
+
+    it 'should not read future flash messages' do
+      flash[:future] = 'Future'
+      flash.key?(:future).should be_false
+    end
   end
 
   it 'can merge flash messages' do
