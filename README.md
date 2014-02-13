@@ -1,3 +1,5 @@
+**Code merged into Padrino. This gem will no longer be maintained**
+
 ### Overview
 
 Padrino Flash is a plugin for the [Padrino](https://github.com/padrino/padrino-framework) web framework which adds support for [Rails](https://github.com/rails/rails) like flash messages.
